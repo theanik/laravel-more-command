@@ -1,0 +1,26 @@
+{
+    "name": "theanik/laravel-more-command",
+    "require": {},
+    "description": "Create a Repository and Service class and trait using Artisan CLI",
+    "authors": [
+        {
+            "name": "Anwar Hossain Anik",
+            "email": "anwar.anik33@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "type": "library",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Theanik\\LaravelMoreCommand\\LaravelMoreCommandProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Theanik\\LaravelMoreCommand\\": "src/"
+        },
+        "classmap": ["src/"]
+    }
+}

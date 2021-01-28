@@ -1,0 +1,13 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+use $INTERFACE_NAMESPACE$;
+
+class $CLASS$ implements $INTERFACE$
+{
+    public function __constuct()
+    {
+        //
+    }
+}
