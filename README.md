@@ -1,6 +1,6 @@
-[issues](https://img.shields.io/github/issues/theanik/laravel-more-command??style=flat&logo=appveyor)
-[forks](https://img.shields.io/github/forks/theanik/laravel-more-command?style=flat&logo=appveyor)
-[stars](https://img.shields.io/github/stars/theanik/laravel-more-command?style=flat&logo=appveyor)
+![issues](https://img.shields.io/github/issues/theanik/laravel-more-command??style=flat&logo=appveyor)
+![forks](https://img.shields.io/github/forks/theanik/laravel-more-command?style=flat&logo=appveyor)
+![stars](https://img.shields.io/github/stars/theanik/laravel-more-command?style=flat&logo=appveyor)
 # Laravel More Command
 A simple package for create __Repository, Repository with Interface, Service, Trait__ form command line using `php artisan` command.\
 [Note : This package also worked for [nWidart/laravel-modules](https://github.com/nWidart/laravel-modules)]
