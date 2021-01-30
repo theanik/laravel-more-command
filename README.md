@@ -91,7 +91,7 @@ php artisan module-make:repository UserRepository Blog
 ```
 or
 ```
-php artisan make:repository Backend\UserRepository Blog
+php artisan module-make:repository Backend\UserRepository Blog
 ```
 
 The above will create a **Repositories** directory inside the **{Module}** directory.
