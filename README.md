@@ -1,6 +1,8 @@
 ![issues](https://img.shields.io/github/issues/theanik/laravel-more-command??style=flat&logo=appveyor)
 ![forks](https://img.shields.io/github/forks/theanik/laravel-more-command?style=flat&logo=appveyor)
 ![stars](https://img.shields.io/github/stars/theanik/laravel-more-command?style=flat&logo=appveyor)
+[![GitHub license](https://img.shields.io/github/license/theanik/laravel-more-command)](https://github.com/theanik/laravel-more-command/blob/master/LICENSE)
+
 # Laravel More Command
 A simple package for create __Repository, Repository with Interface, Service, Trait__ form command line using `php artisan` command.\
 [Note : This package also worked for [nWidart/laravel-modules](https://github.com/nWidart/laravel-modules)]
@@ -142,8 +144,6 @@ The above will create a **Traits** directory inside the **{Module}** directory.
 __An Example of created repository class:__
 
 ```
-<?php
-
 <?php
 
 namespace App\Repositories;
