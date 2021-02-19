@@ -159,8 +159,6 @@ class UserRepository
 
 ```
 
-<a href="#" target="_blank"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
-
 ## License
 
 The MIT License (MIT). Please see [License](LICENSE) for more information.
