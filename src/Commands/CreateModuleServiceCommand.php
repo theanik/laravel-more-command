@@ -22,7 +22,7 @@ class CreateModuleServiceCommand extends CommandGenerator
      * name
      * @var string
      */
-    protected $name = 'module-make:service';
+    protected $name = 'module:make-service';
 
 
     /**
