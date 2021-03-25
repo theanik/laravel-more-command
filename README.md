@@ -85,29 +85,29 @@ The above will create a **Traits** directory inside the **App** directory.
 ## In [nWidart/laravel-modules](https://github.com/nWidart/laravel-modules) Modules
 
 __Create a repository Class.__\
-`php artisan module-make:repository your-repository-name {module-name}`
+`php artisan module:make-repository your-repository-name {module-name}`
 
 Example:
 ```
-php artisan module-make:repository UserRepository Blog
+php artisan module:make-repository UserRepository Blog
 ```
 or
 ```
-php artisan module-make:repository Backend\UserRepository Blog
+php artisan module:make-repository Backend\UserRepository Blog
 ```
 
 The above will create a **Repositories** directory inside the **{Module}** directory.
 
 __Create a repository with Interface.__\
-`php artisan make:repository your-repository-name {module-name} -i`
+`php artisan module:make-repository your-repository-name {module-name} -i`
 
 Example:
 ```
-php artisan module-make:repository UserRepository -i Blog
+php artisan module:make-repository UserRepository -i Blog
 ```
 or
 ```
-php artisan module-make:repository Backend\UserRepository -i Blog
+php artisan module:make-repository Backend\UserRepository -i Blog
 ```
 Here you need to put extra `-i` flag.
 The above will create a **Repositories** directory inside the **{Module}** directory.
