@@ -22,7 +22,7 @@ class CreateModuleTraitCommand extends CommandGenerator
      * name
      * @var string
      */
-    protected $name = 'module-make:trait';
+    protected $name = 'module:make-trait';
 
      /**
      * command description.
