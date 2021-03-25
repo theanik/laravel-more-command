@@ -114,28 +114,28 @@ The above will create a **Repositories** directory inside the **{Module}** direc
 
 
 __Create a Service Class.__\
-`php artisan module-make:service your-service-name {module-name}`
+`php artisan module:make-service your-service-name {module-name}`
 
 Example:
 ```
-php artisan module-make:service UserService
+php artisan module:make-service UserService
 ```
 or
 ```
-php artisan module-make:service Backend\UserService
+php artisan module:make-service Backend\UserService
 ```
 The above will create a **Services** directory inside the **{Module}** directory.
 
 __Create a Trait.__\
-`php artisan make:trait your-trait-name {module-name}`
+`php artisan module:make-trait your-trait-name {module-name}`
 
 Example:
 ```
-php artisan module-make:trait HasAuth
+php artisan module:make-trait HasAuth
 ```
 or
 ```
-php artisan module-make:trait Backend\HasAuth
+php artisan module:make-trait Backend\HasAuth
 ```
 The above will create a **Traits** directory inside the **{Module}** directory.
 
