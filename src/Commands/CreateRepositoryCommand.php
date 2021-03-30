@@ -230,6 +230,7 @@ class CreateRepositoryCommand extends CommandGenerator
      */
     public function handle()
     {
+        
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
         
         if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {

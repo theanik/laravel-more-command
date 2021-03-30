@@ -4,7 +4,6 @@ namespace Theanik\LaravelMoreCommand\Commands;
 use Theanik\LaravelMoreCommand\Support\GenerateFile;
 use Theanik\LaravelMoreCommand\Support\FileGenerator;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Illuminate\Support\Str;
 
 class CreateModuleServiceCommand extends CommandGenerator
@@ -22,7 +21,7 @@ class CreateModuleServiceCommand extends CommandGenerator
      * name
      * @var string
      */
-    protected $name = 'module-make:service';
+    protected $name = 'module:make-service';
 
 
     /**
@@ -148,6 +147,13 @@ class CreateModuleServiceCommand extends CommandGenerator
      */
     public function handle()
     {
+        // Check this module exists or not.
+        if ($this->checkModuleExists($this->argument('module')) === false) {
+            $this->error(" Module [{$this->argument('module')}] does not exist!");  
+            return E_ERROR;
+            exit;
+         }
+         
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
         
         if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {

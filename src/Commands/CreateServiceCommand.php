@@ -4,7 +4,6 @@ namespace Theanik\LaravelMoreCommand\Commands;
 use Theanik\LaravelMoreCommand\Support\GenerateFile;
 use Theanik\LaravelMoreCommand\Support\FileGenerator;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use Illuminate\Support\Str;
 
 class CreateServiceCommand extends CommandGenerator

@@ -222,6 +222,15 @@ class CreateModuleRepositoryCommand extends CommandGenerator
      */
     public function handle()
     {
+
+        // Check this module exists or not.
+        if ($this->checkModuleExists($this->argument('module')) === false) {
+            $this->error(" Module [{$this->argument('module')}] does not exist!");  
+            return E_ERROR;
+            exit;
+         }
+
+         
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
 
         if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {

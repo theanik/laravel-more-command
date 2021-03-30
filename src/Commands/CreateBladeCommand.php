@@ -6,21 +6,21 @@ use Theanik\LaravelMoreCommand\Support\FileGenerator;
 use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Support\Str;
 
-class CreateTraitCommand extends CommandGenerator
+class CreateBladeCommand extends CommandGenerator
 {
     /**
      * argumentName
      *
      * @var string
      */
-    public $argumentName = 'trait';
+    public $argumentName = 'view';
 
     /**
      * Name and signiture of Command.
      * name
      * @var string
      */
-    protected $name = 'make:trait';
+    protected $name = 'make:view';
 
     /**
      * command description.
@@ -38,7 +38,7 @@ class CreateTraitCommand extends CommandGenerator
     protected function getArguments()
     {
         return [
-            ['trait', InputArgument::REQUIRED, 'The name of the trait'],
+            ['view', InputArgument::REQUIRED, 'The name of the view'],
         ];
     }
 
@@ -54,14 +54,17 @@ class CreateTraitCommand extends CommandGenerator
     }
     
     /**
-     * getTraitName
+     * getViewName
      *
      * @return void
      */
-    private function getTraitName()
+    private function getViewName()
     {
-        $trait = Str::studly($this->argument('trait'));
-        return $trait;
+        $view = Str::camel($this->argument('view'));
+        if (Str::contains(strtolower($view), '.blade.php') === false) {
+            $view .= '.blade.php';
+        }
+        return $view;
     }
     
     /**
@@ -71,28 +74,9 @@ class CreateTraitCommand extends CommandGenerator
      */
     protected function getDestinationFilePath()
     {
-        return app_path()."/Traits".'/'. $this->getTraitName() . '.php';
+        return base_path()."/resource/views".'/'. $this->getViewName();
     }
     
-    /**
-     * getTraitNameWithoutNamespace
-     *
-     * @return void
-     */
-    private function getTraitNameWithoutNamespace()
-    {
-        return class_basename($this->getTraitName());
-    }
-    
-    /**
-     * getDefaultNamespace
-     *
-     * @return string
-     */
-    public function getDefaultNamespace() : string
-    {
-        return "App\\Traits";
-    }
 
     /**
      * getStubFilePath
@@ -101,7 +85,7 @@ class CreateTraitCommand extends CommandGenerator
      */
     protected function getStubFilePath()
     {
-        $stub = '/stubs/traits.stub';
+        $stub = '/stubs/blade.stub';
         return $stub;
     }
     
@@ -112,10 +96,7 @@ class CreateTraitCommand extends CommandGenerator
      */
     protected function getTemplateContents()
     {
-        return (new GenerateFile(__DIR__.$this->getStubFilePath(), [
-            'CLASS_NAMESPACE'   => $this->getClassNamespace(),
-            'CLASS'             => $this->getTraitNameWithoutNamespace()
-        ]))->render();
+        return (new GenerateFile(__DIR__.$this->getStubFilePath()))->render();
     }
 
     /**

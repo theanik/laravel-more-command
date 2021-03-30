@@ -112,6 +112,22 @@ abstract class CommandGenerator extends Command{
     }
 
 
+    
+    /**
+     * checkModuleExists
+     *
+     * @param  mixed $moduleName
+     * @return bool
+     */
+    public function checkModuleExists(string $moduleName):bool
+    {
+        if (!in_array($moduleName,scandir(base_path()."/Modules"))) {
+            return false;
+        }
+        return true;
+    }
+
+
 
 
 }
