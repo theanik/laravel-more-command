@@ -4,7 +4,8 @@
 [![GitHub license](https://img.shields.io/github/license/theanik/laravel-more-command)](https://github.com/theanik/laravel-more-command/blob/master/LICENSE)
 
 # Laravel More Command
-A simple package for create __Repository, Repository with Interface, Service, Trait__ form command line using `php artisan` command.\
+Laravel More Command is collection of few `php artisan` command. You can use it to create __Repository, Repository with Interface, Service, Trait, View(blade file)__  and __Clear Log__ form command line using `php artisan` command.\
+<br />
 [Note : This package also worked for [nWidart/laravel-modules](https://github.com/nWidart/laravel-modules)]
 
 ## Installation
@@ -21,9 +22,23 @@ Or add the following to your composer.json's require-dev section and `composer u
         "theanik/laravel-more-command": "^1.1.0"
     }
 ```
-## Artisan Commands
+## Artisan Command List
 
-## In Laravel Project
+<!-- List Of Command -->
+<div>
+  <ol>
+    <li><a href="#Make-Repository">Make Repository</a></li>
+    <li><a href="#Make-Service">Make Service</a></li>
+    <li><a href="#Make-Trait">Make Trait</a></li>
+    <li><a href="#Make-View">Make View</a></li>
+    <li><a href="#Log-Clear">Log Clear</a></li>
+  </ol>
+</div>
+<!-- End list of command -->
+
+<br />
+
+## Make Repository
 
 __Create a repository Class.__\
 `php artisan make:repository your-repository-name`
@@ -54,35 +69,7 @@ Here you need to put extra `-i` flag.
 The above will create a **Repositories** directory inside the **App** directory.
 
 
-__Create a Service Class.__\
-`php artisan make:service your-service-name`
-
-Example:
-```
-php artisan make:service UserService
-```
-or
-```
-php artisan make:service Backend\UserService
-```
-The above will create a **Services** directory inside the **App** directory.
-
-__Create a Trait.__\
-`php artisan make:trait your-trait-name`
-
-Example:
-```
-php artisan make:trait HasAuth
-```
-or
-```
-php artisan make:trait Backend\HasAuth
-```
-The above will create a **Traits** directory inside the **App** directory.
-
-
-
-## In [nWidart/laravel-modules](https://github.com/nWidart/laravel-modules) Modules
+###### In [nWidart/laravel-modules](https://github.com/nWidart/laravel-modules) Modules
 
 __Create a repository Class.__\
 `php artisan module:make-repository your-repository-name {module-name}`
@@ -111,35 +98,7 @@ php artisan module:make-repository Backend\UserRepository -i Blog
 ```
 Here you need to put extra `-i` flag.
 The above will create a **Repositories** directory inside the **{Module}** directory.
-
-
-__Create a Service Class.__\
-`php artisan module:make-service your-service-name {module-name}`
-
-Example:
-```
-php artisan module:make-service UserService
-```
-or
-```
-php artisan module:make-service Backend\UserService
-```
-The above will create a **Services** directory inside the **{Module}** directory.
-
-__Create a Trait.__\
-`php artisan module:make-trait your-trait-name {module-name}`
-
-Example:
-```
-php artisan module:make-trait HasAuth
-```
-or
-```
-php artisan module:make-trait Backend\HasAuth
-```
-The above will create a **Traits** directory inside the **{Module}** directory.
-
-
+\
 
 __An Example of created repository class:__
 
@@ -159,6 +118,117 @@ class UserRepository
 
 ```
 
-## License
+<br />
+
+
+## Make Service
+
+__Create a Service Class.__\
+`php artisan make:service your-service-name`
+
+Example:
+```
+php artisan make:service UserService
+```
+or
+```
+php artisan make:service Backend\UserService
+```
+The above will create a **Services** directory inside the **App** directory.
+
+
+###### In [nWidart/laravel-modules](https://github.com/nWidart/laravel-modules) Modules
+
+`php artisan module:make-service your-service-name {module-name}`
+
+Example:
+```
+php artisan module:make-service UserService
+```
+or
+```
+php artisan module:make-service Backend\UserService
+```
+The above will create a **Services** directory inside the **{Module}** directory.
+
+
+<br />
+
+## Make Trait
+
+__Create a Trait.__\
+`php artisan make:trait your-trait-name`
+
+Example:
+```
+php artisan make:trait HasAuth
+```
+or
+```
+php artisan make:trait Backend\HasAuth
+```
+The above will create a **Traits** directory inside the **App** directory.
+
+###### In [nWidart/laravel-modules](https://github.com/nWidart/laravel-modules) Modules
+
+`php artisan module:make-trait your-trait-name {module-name}`
+
+Example:
+```
+php artisan module:make-trait HasAuth
+```
+or
+```
+php artisan module:make-trait Backend\HasAuth
+```
+The above will create a **Traits** directory inside the **{Module}** directory.
+
+
+
+
+<br />
+
+## Make View
+__Create a view.__\
+`php artisan make:view your-view-file-name`
+
+Example:
+```
+php artisan make:view index
+```
+or
+```
+php artisan make:view user\index
+```
+The above will create a **blade** file inside the **/resource/views/** directory.
+
+###### In [nWidart/laravel-modules](https://github.com/nWidart/laravel-modules) Modules
+
+`php artisan module:make-view your-view-file-name {module-name}`
+
+Example:
+```
+php artisan module:make-view index
+```
+or
+```
+php artisan module:make-view user\index
+```
+The above will create a **blade** file inside the **{Module}/Resources/views/** directory.
+
+
+
+<br />
+
+## Log Clear
+
+`php artisan log:clear`
+
+The above will deleted all old log data from **/storage/logs/** directory.
+
+
+
+
+# License
 
 The MIT License (MIT). Please see [License](LICENSE) for more information.
