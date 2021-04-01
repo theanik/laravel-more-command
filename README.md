@@ -4,7 +4,7 @@
 [![GitHub license](https://img.shields.io/github/license/theanik/laravel-more-command)](https://github.com/theanik/laravel-more-command/blob/master/LICENSE)
 
 # Laravel More Command
-Laravel More Command is collection of few `php artisan` command. You can use it to create __Repository, Repository with Interface, Service, Trait, View(blade file)__  and __Clear Log__ form command line using `php artisan` command.\
+Laravel More Command is a collection of a few `php artisan` commands. You can use it to create a __Repository, Repository with Interface, Service, Trait, View(blade file)__, and __Clear Log__ from the command line using `php artisan` command.\
 <br />
 [Note : This package also worked for [nWidart/laravel-modules](https://github.com/nWidart/laravel-modules)]
 
