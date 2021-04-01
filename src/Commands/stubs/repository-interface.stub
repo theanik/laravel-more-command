@@ -6,7 +6,7 @@ use $INTERFACE_NAMESPACE$;
 
 class $CLASS$ implements $INTERFACE$
 {
-    public function __constuct()
+    public function __construct()
     {
         //
     }

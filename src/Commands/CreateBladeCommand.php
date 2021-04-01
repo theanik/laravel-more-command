@@ -74,7 +74,7 @@ class CreateBladeCommand extends CommandGenerator
      */
     protected function getDestinationFilePath()
     {
-        return base_path()."/resource/views".'/'. $this->getViewName();
+        return base_path()."/resources/views".'/'. $this->getViewName();
     }
     
 
