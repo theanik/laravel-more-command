@@ -169,7 +169,7 @@ class CreateRepositoryCommand extends CommandGenerator
      */
     public function getDefaultInterfaceNamespace() : string
     {
-        return "App\\Repositorires\\Interfaces";
+        return "App\\Repositories\\Interfaces";
     }
 
     
