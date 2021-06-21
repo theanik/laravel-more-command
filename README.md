@@ -19,7 +19,7 @@ Or add the following to your composer.json's require-dev section and `composer u
 
 ```json
 "require-dev": {
-        "theanik/laravel-more-command": "^1.1.0"
+        "theanik/laravel-more-command": "^1.2.0"
     }
 ```
 ## Artisan Command List
