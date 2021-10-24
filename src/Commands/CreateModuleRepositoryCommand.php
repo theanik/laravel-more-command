@@ -138,7 +138,7 @@ class CreateModuleRepositoryCommand extends CommandGenerator
      */
     public function getDefaultNamespace() : string
     {
-        return "Modules\\{$this->argument('module')}\\Repositorires";
+        return "Modules\\{$this->argument('module')}\\Repositories";
     }
 
     /**
@@ -161,7 +161,7 @@ class CreateModuleRepositoryCommand extends CommandGenerator
      */
     public function getDefaultInterfaceNamespace() : string
     {
-        return "Modules\\{$this->argument('module')}\\Repositorires\\Interfaces";
+        return "Modules\\{$this->argument('module')}\\Repositories\\Interfaces";
     }
 
 
