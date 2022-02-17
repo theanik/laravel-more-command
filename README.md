@@ -22,6 +22,19 @@ Or add the following to your composer.json's require-dev section and `composer u
         "theanik/laravel-more-command": "^1.2.0"
     }
 ```
+
+## Publish Package Configuration
+```shell
+ php artisan vendor:publish --provider="Theanik\LaravelMoreCommand\LaravelMoreCommandProvider" --tag="config"
+```
+### To Change Default Namespace [config/laravel-more-command.php]
+```php
+<?php
+return [
+    'namespace' => 'App', // Your Desire Namespace
+];
+```
+
 ## Artisan Command List
 
 <!-- List Of Command -->

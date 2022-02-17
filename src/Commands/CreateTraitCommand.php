@@ -91,7 +91,8 @@ class CreateTraitCommand extends CommandGenerator
      */
     public function getDefaultNamespace() : string
     {
-        return "App\\Traits";
+        $configNamespace = $this->getNamespaceFromConfig();
+        return "$configNamespace\\Traits";
     }
 
     /**
