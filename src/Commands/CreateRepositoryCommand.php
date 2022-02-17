@@ -1,4 +1,5 @@
 <?php
+
 namespace Theanik\LaravelMoreCommand\Commands;
 
 use Theanik\LaravelMoreCommand\Support\GenerateFile;
@@ -8,7 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Illuminate\Support\Str;
 
 class CreateRepositoryCommand extends CommandGenerator
-{    
+{
     /**
      * argumentName
      *
@@ -16,7 +17,7 @@ class CreateRepositoryCommand extends CommandGenerator
      */
     public $argumentName = 'repository';
 
-        
+
     /**
      * Name and signiture of Command.
      * name
@@ -33,27 +34,26 @@ class CreateRepositoryCommand extends CommandGenerator
     protected $description = 'Command description';
 
 
-    
     /**
      * Get command agrumants - EX : UserRepository
      * getArguments
      *
-     * @return void
+     * @return array[]
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['repository', InputArgument::REQUIRED, 'The name of the repository class.'],
         ];
     }
-    
+
     /**
      * Get command options - EX : -i
      * getOptions
      *
-     * @return void
+     * @return array[]
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
             ['interface', 'i', InputOption::VALUE_NONE, 'Flag to create associated Interface', null]
@@ -61,7 +61,6 @@ class CreateRepositoryCommand extends CommandGenerator
     }
 
 
-        
     /**
      * __construct
      *
@@ -69,17 +68,16 @@ class CreateRepositoryCommand extends CommandGenerator
      */
     public function __construct()
     {
-       parent::__construct();
+        parent::__construct();
     }
-    
-    
+
     /**
      * Return Repository name as convention
      * getRepositoryName
      *
-     * @return void
+     * @return string
      */
-    private function getRepositoryName()
+    private function getRepositoryName(): string
     {
         $repository = Str::studly($this->argument('repository'));
 
@@ -89,53 +87,53 @@ class CreateRepositoryCommand extends CommandGenerator
 
         return $repository;
     }
-    
+
     /**
      * Return destination path for class file publish
      * getDestinationFilePath
      *
-     * @return void
+     * @return string
      */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
-        return app_path()."/Repositories".'/'. $this->getRepositoryName() . '.php';
+        return app_path() . "/Repositories" . '/' . $this->getRepositoryName() . '.php';
     }
-    
+
     /**
      * Return Inferace name for this repository class
      * getInterfaceName
      *
-     * @return void
+     * @return string
      */
-    protected function getInterfaceName()
+    protected function getInterfaceName(): string
     {
-        return $this->getRepositoryName()."Interface";
+        return $this->getRepositoryName() . "Interface";
     }
 
-    
+
     /**
      * Return destination path for interface file publish
      * interfaceDestinationPath
      *
-     * @return void
+     * @return string
      */
-    protected function interfaceDestinationPath()
+    protected function interfaceDestinationPath(): string
     {
-        return app_path()."/Repositories/Interfaces".'/'. $this->getInterfaceName() . '.php';
+        return app_path() . "/Repositories/Interfaces" . '/' . $this->getInterfaceName() . '.php';
     }
-    
-    
+
+
     /**
-     * Return only repository class name 
+     * Return only repository class name
      * getRepositoryNameWithoutNamespace
      *
-     * @return void
+     * @return string
      */
-    private function getRepositoryNameWithoutNamespace()
+    private function getRepositoryNameWithoutNamespace(): string
     {
         return class_basename($this->getRepositoryName());
     }
-    
+
     /**
      * Set Default Namespace
      * Override CommandGenerator class method
@@ -143,23 +141,24 @@ class CreateRepositoryCommand extends CommandGenerator
      *
      * @return string
      */
-    public function getDefaultNamespace() : string
+    public function getDefaultNamespace(): string
     {
-        return "App\\Repositories";
+        $configNamespace = $this->getNamespaceFromConfig();
+        return "$configNamespace\\Repositories";
     }
 
-    
+
     /**
-     * Return only repository interface name 
+     * Return only repository interface name
      * getInterfaceNameWithoutNamespace
      *
-     * @return void
+     * @return string
      */
-    private function getInterfaceNameWithoutNamespace()
+    private function getInterfaceNameWithoutNamespace(): string
     {
         return class_basename($this->getInterfaceName());
     }
-    
+
     /**
      * Set Default interface Namepsace
      * Override CommandGenerator class method
@@ -167,19 +166,20 @@ class CreateRepositoryCommand extends CommandGenerator
      *
      * @return string
      */
-    public function getDefaultInterfaceNamespace() : string
+    public function getDefaultInterfaceNamespace(): string
     {
-        return "App\\Repositories\\Interfaces";
+        $configNamespace = $this->getNamespaceFromConfig();
+        return "$configNamespace\\Repositories\\Interfaces";
     }
 
-    
+
     /**
      * Return stub file path
      * getStubFilePath
      *
-     * @return void
+     * @return string
      */
-    protected function getStubFilePath()
+    protected function getStubFilePath(): string
     {
         if ($this->option('interface') === true) {
             $stub = '/stubs/repository-interface.stub';
@@ -190,7 +190,7 @@ class CreateRepositoryCommand extends CommandGenerator
         return $stub;
     }
 
-    
+
     /**
      * Generate file content
      * getTemplateContents
@@ -199,15 +199,15 @@ class CreateRepositoryCommand extends CommandGenerator
      */
     protected function getTemplateContents()
     {
-        return (new GenerateFile(__DIR__.$this->getStubFilePath(), [
-            'CLASS_NAMESPACE'   => $this->getClassNamespace(),
-            'INTERFACE_NAMESPACE'   => $this->getInterfaceNamespace().'\\'.$this->getInterfaceNameWithoutNamespace(),
-            'CLASS'             => $this->getRepositoryNameWithoutNamespace(),
-            'INTERFACE'         => $this->getInterfaceNameWithoutNamespace()
+        return (new GenerateFile(__DIR__ . $this->getStubFilePath(), [
+            'CLASS_NAMESPACE' => $this->getClassNamespace(),
+            'INTERFACE_NAMESPACE' => $this->getInterfaceNamespace() . '\\' . $this->getInterfaceNameWithoutNamespace(),
+            'CLASS' => $this->getRepositoryNameWithoutNamespace(),
+            'INTERFACE' => $this->getInterfaceNameWithoutNamespace()
         ]))->render();
     }
 
-    
+
     /**
      * Generate inteface file content
      * getInterfaceTemplateContents
@@ -216,9 +216,9 @@ class CreateRepositoryCommand extends CommandGenerator
      */
     protected function getInterfaceTemplateContents()
     {
-        return (new GenerateFile(__DIR__."/stubs/interface.stub", [
-            'CLASS_NAMESPACE'   => $this->getInterfaceNamespace(),
-            'INTERFACE'         => $this->getInterfaceNameWithoutNamespace()
+        return (new GenerateFile(__DIR__ . "/stubs/interface.stub", [
+            'CLASS_NAMESPACE' => $this->getInterfaceNamespace(),
+            'INTERFACE' => $this->getInterfaceNameWithoutNamespace()
         ]))->render();
     }
 
@@ -230,34 +230,34 @@ class CreateRepositoryCommand extends CommandGenerator
      */
     public function handle()
     {
-        
+
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
-        
+
         if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {
             $this->laravel['files']->makeDirectory($dir, 0777, true);
         }
-        
+
         $contents = $this->getTemplateContents();
 
         // For Interface
-        if($this->option('interface') == true){
+        if ($this->option('interface') == true) {
             $interfacePath = str_replace('\\', '/', $this->interfaceDestinationPath());
 
             if (!$this->laravel['files']->isDirectory($dir = dirname($interfacePath))) {
                 $this->laravel['files']->makeDirectory($dir, 0777, true);
             }
-        
+
             $interfaceContents = $this->getInterfaceTemplateContents();
         }
 
         try {
-            
+
             (new FileGenerator($path, $contents))->generate();
-            
+
             $this->info("Created : {$path}");
 
             // For Interface
-            if($this->option('interface') === true){
+            if ($this->option('interface') === true) {
 
                 (new FileGenerator($interfacePath, $interfaceContents))->generate();
 

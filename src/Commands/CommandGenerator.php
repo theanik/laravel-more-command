@@ -4,15 +4,16 @@ namespace Theanik\LaravelMoreCommand\Commands;
 
 use Illuminate\Console\Command;
 
-abstract class CommandGenerator extends Command{
-    
+abstract class CommandGenerator extends Command
+{
+
     /**
      * argumentName
      *
      * @var mixed
      */
     public $argumentName;
-        
+
     /**
      * Return the rendered File Content
      * getTemplateContents
@@ -20,7 +21,7 @@ abstract class CommandGenerator extends Command{
      * @return string
      */
     abstract protected function getTemplateContents();
-    
+
 
     /**
      * Return the destination path for publishe created class file.
@@ -29,7 +30,16 @@ abstract class CommandGenerator extends Command{
      * @return string
      */
     abstract protected function getDestinationFilePath();
-    
+
+
+    /**
+     * Get Namespace From Config
+     * @return string
+     */
+    public function getNamespaceFromConfig(): string
+    {
+        return config('laravel-more-command.namespace') ?? 'App';
+    }
 
     /**
      * Return the default namesapce for class
@@ -37,24 +47,24 @@ abstract class CommandGenerator extends Command{
      *
      * @return string
      */
-    public function getDefaultNamespace() : string
+    public function getDefaultNamespace(): string
     {
         return '';
     }
 
-    
+
     /**
      * Return the default namesapce type for interface
      * getDefaultInterfaceNamespace
      *
      * @return string
      */
-    public function getDefaultInterfaceNamespace() : string
+    public function getDefaultInterfaceNamespace(): string
     {
         return '';
     }
 
-        
+
     /**
      * Return a vaid class name
      * getClass
@@ -66,7 +76,7 @@ abstract class CommandGenerator extends Command{
         return class_basename($this->argument($this->argumentName));
     }
 
-    
+
     /**
      * Generate class namespace dinamacally
      * getClassNamespace
@@ -79,7 +89,7 @@ abstract class CommandGenerator extends Command{
 
         $extra = str_replace('/', '\\', $extra);
 
-        $namespace =  $this->getDefaultNamespace();
+        $namespace = $this->getDefaultNamespace();
 
         $namespace .= '\\' . $extra;
 
@@ -89,7 +99,6 @@ abstract class CommandGenerator extends Command{
     }
 
 
-    
     /**
      * Generate interface namespace dinamacally
      * getInterfaceNamespace
@@ -98,11 +107,11 @@ abstract class CommandGenerator extends Command{
      */
     public function getInterfaceNamespace()
     {
-        $extra = str_replace($this->getClass().'Interface', '', $this->argument($this->argumentName).'Interface');
+        $extra = str_replace($this->getClass() . 'Interface', '', $this->argument($this->argumentName) . 'Interface');
 
         $extra = str_replace('/', '\\', $extra);
 
-        $namespace =  $this->getDefaultInterfaceNamespace();
+        $namespace = $this->getDefaultInterfaceNamespace();
 
         $namespace .= '\\' . $extra;
 
@@ -112,22 +121,19 @@ abstract class CommandGenerator extends Command{
     }
 
 
-    
     /**
      * checkModuleExists
      *
-     * @param  mixed $moduleName
+     * @param mixed $moduleName
      * @return bool
      */
-    public function checkModuleExists(string $moduleName):bool
+    public function checkModuleExists(string $moduleName): bool
     {
-        if (!in_array($moduleName,scandir(base_path()."/Modules"))) {
+        if (!in_array($moduleName, scandir(base_path() . "/Modules"))) {
             return false;
         }
         return true;
     }
-
-
 
 
 }

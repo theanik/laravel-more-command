@@ -107,7 +107,8 @@ class CreateServiceCommand extends CommandGenerator
      */
     public function getDefaultNamespace() : string
     {
-        return "App\\Services";
+        $configNamespace = $this->getNamespaceFromConfig();
+        return "$configNamespace\\Services";
     }
 
     

@@ -31,8 +31,8 @@ class LaravelMoreCommandProvider extends ServiceProvider
             CreateServiceCommand::class,
             CreateBladeCommand::class,
             ClearLogCommand::class,
-            
-            
+
+
             // For nWidart/laravel-modules:
             CreateModuleRepositoryCommand::class,
             CreateModuleTraitCommand::class,
@@ -48,6 +48,8 @@ class LaravelMoreCommandProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->publishes([
+            __DIR__ . '/../config/laravel-more-command.php' => config_path('laravel-more-command.php'),
+        ], 'config');
     }
 }
