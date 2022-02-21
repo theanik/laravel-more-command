@@ -19,8 +19,8 @@ Or add the following to your composer.json's require-dev section and `composer u
 
 ```json
 "require-dev": {
-        "theanik/laravel-more-command": "^1.3.0"
-    }
+    "theanik/laravel-more-command": "^1.3.0"
+}
 ```
 
 ## Publish Package Configuration
