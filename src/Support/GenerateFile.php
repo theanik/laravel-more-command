@@ -3,21 +3,21 @@
 namespace Theanik\LaravelMoreCommand\Support;
 
 class GenerateFile{
-    
+
     /**
      * path
      *
-     * @var mixed
+     * @var string
      */
     protected $path;
 
     /**
      * basePath
      *
-     * @var mixed
+     * @var string
      */
-    protected static $basePath = null;
-    
+    protected static $basePath = '';
+
     /**
      * replaces
      *
@@ -25,38 +25,38 @@ class GenerateFile{
      */
     protected $replaces = [];
 
-    
+
     /**
      * __construct
      *
-     * @param  mixed $path
-     * @param  mixed $replaces
+     * @param  string $path
+     * @param  array $replaces
      * @return void
      */
-    public function __construct($path, array $replaces = [])
+    public function __construct(string $path, array $replaces = [])
     {
         $this->path = $path;
         $this->replaces = $replaces;
     }
-    
+
     /**
      * getPath
      *
-     * @return void
+     * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    
+
     /**
      * Get replaced file content
      * getContents
      *
-     * @return void
+     * @return string
      */
-    public function getContents()
+    public function getContents(): string
     {
         $contents = file_get_contents($this->getPath());
 
@@ -67,14 +67,14 @@ class GenerateFile{
         return $contents;
     }
 
-    
+
     /**
      * return the replaced file content
      * render
      *
-     * @return void
+     * @return string
      */
-    public function render()
+    public function render(): string
     {
         return $this->getContents();
     }

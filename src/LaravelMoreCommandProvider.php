@@ -32,7 +32,6 @@ class LaravelMoreCommandProvider extends ServiceProvider
             CreateBladeCommand::class,
             ClearLogCommand::class,
 
-
             // For nWidart/laravel-modules:
             CreateModuleRepositoryCommand::class,
             CreateModuleTraitCommand::class,

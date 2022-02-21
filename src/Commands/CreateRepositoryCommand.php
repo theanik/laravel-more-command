@@ -35,6 +35,16 @@ class CreateRepositoryCommand extends CommandGenerator
 
 
     /**
+     * __construct
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /**
      * Get command agrumants - EX : UserRepository
      * getArguments
      *
@@ -60,17 +70,6 @@ class CreateRepositoryCommand extends CommandGenerator
         ];
     }
 
-
-    /**
-     * __construct
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Return Repository name as convention
      * getRepositoryName
@@ -89,6 +88,19 @@ class CreateRepositoryCommand extends CommandGenerator
     }
 
     /**
+     * Replace App with empty string for resolve namespace
+     *
+     * @return string
+     */
+    private function resolveNamespace(): string
+    {
+        if (strpos($this->getServiceNamespaceFromConfig(), self::APP_PATH) === 0) {
+            return str_replace(self::APP_PATH, '', $this->getServiceNamespaceFromConfig());
+        }
+        return '/' . $this->getServiceNamespaceFromConfig();
+    }
+
+    /**
      * Return destination path for class file publish
      * getDestinationFilePath
      *
@@ -96,11 +108,11 @@ class CreateRepositoryCommand extends CommandGenerator
      */
     protected function getDestinationFilePath(): string
     {
-        return app_path() . "/Repositories" . '/' . $this->getRepositoryName() . '.php';
+        return app_path() . $this->resolveNamespace() . '/Repositories' . '/' . $this->getRepositoryName() . '.php';
     }
 
     /**
-     * Return Inferace name for this repository class
+     * Return Inference name for this repository class
      * getInterfaceName
      *
      * @return string
@@ -119,7 +131,7 @@ class CreateRepositoryCommand extends CommandGenerator
      */
     protected function interfaceDestinationPath(): string
     {
-        return app_path() . "/Repositories/Interfaces" . '/' . $this->getInterfaceName() . '.php';
+        return app_path() . $this->resolveNamespace() . "/Repositories/Interfaces" . '/' . $this->getInterfaceName() . '.php';
     }
 
 
@@ -143,7 +155,7 @@ class CreateRepositoryCommand extends CommandGenerator
      */
     public function getDefaultNamespace(): string
     {
-        $configNamespace = $this->getNamespaceFromConfig();
+        $configNamespace = $this->getRepositoryNamespaceFromConfig();
         return "$configNamespace\\Repositories";
     }
 
@@ -160,7 +172,7 @@ class CreateRepositoryCommand extends CommandGenerator
     }
 
     /**
-     * Set Default interface Namepsace
+     * Set Default interface Namespace
      * Override CommandGenerator class method
      * getDefaultInterfaceNamespace
      *
@@ -168,7 +180,7 @@ class CreateRepositoryCommand extends CommandGenerator
      */
     public function getDefaultInterfaceNamespace(): string
     {
-        $configNamespace = $this->getNamespaceFromConfig();
+        $configNamespace = $this->getRepositoryNamespaceFromConfig();
         return "$configNamespace\\Repositories\\Interfaces";
     }
 
@@ -195,9 +207,9 @@ class CreateRepositoryCommand extends CommandGenerator
      * Generate file content
      * getTemplateContents
      *
-     * @return void
+     * @return string
      */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         return (new GenerateFile(__DIR__ . $this->getStubFilePath(), [
             'CLASS_NAMESPACE' => $this->getClassNamespace(),
@@ -209,12 +221,12 @@ class CreateRepositoryCommand extends CommandGenerator
 
 
     /**
-     * Generate inteface file content
+     * Generate interface file content
      * getInterfaceTemplateContents
      *
-     * @return void
+     * @return string
      */
-    protected function getInterfaceTemplateContents()
+    protected function getInterfaceTemplateContents(): string
     {
         return (new GenerateFile(__DIR__ . "/stubs/interface.stub", [
             'CLASS_NAMESPACE' => $this->getInterfaceNamespace(),
@@ -230,7 +242,6 @@ class CreateRepositoryCommand extends CommandGenerator
      */
     public function handle()
     {
-
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
 
         if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {
@@ -251,7 +262,6 @@ class CreateRepositoryCommand extends CommandGenerator
         }
 
         try {
-
             (new FileGenerator($path, $contents))->generate();
 
             $this->info("Created : {$path}");
@@ -263,7 +273,6 @@ class CreateRepositoryCommand extends CommandGenerator
 
                 $this->info("Created : {$interfacePath}");
             }
-
 
         } catch (\Exception $e) {
 

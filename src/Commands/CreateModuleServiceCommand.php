@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Support\Str;
 
 class CreateModuleServiceCommand extends CommandGenerator
-{    
+{
     /**
      * argumentName
      *
@@ -15,9 +15,9 @@ class CreateModuleServiceCommand extends CommandGenerator
      */
     public $argumentName = 'service';
 
-        
+
     /**
-     * Name and signiture of Command.
+     * Name and signature of Command.
      * name
      * @var string
      */
@@ -32,22 +32,22 @@ class CreateModuleServiceCommand extends CommandGenerator
     protected $description = 'Command description';
 
 
-    
+
     /**
-     * Get command agrumants - EX : UserService
+     * Get command arguments - EX : UserService
      * getArguments
      *
-     * @return void
+     * @return array
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['service', InputArgument::REQUIRED, 'The name of the service class.'],
             ['module', InputArgument::REQUIRED, 'The name of module will be used.']
         ];
     }
-    
-        
+
+
     /**
      * __construct
      *
@@ -57,15 +57,15 @@ class CreateModuleServiceCommand extends CommandGenerator
     {
        parent::__construct();
     }
-    
-    
+
+
     /**
-     * Return Service name as convention
+     * Return Service names as convention
      * getServiceName
      *
-     * @return void
+     * @return string
      */
-    private function getServiceName()
+    private function getServiceName(): string
     {
         $service = Str::studly($this->argument('service'));
 
@@ -75,30 +75,30 @@ class CreateModuleServiceCommand extends CommandGenerator
 
         return $service;
     }
-    
+
     /**
      * Return destination path for class file publish
      * getDestinationFilePath
      *
-     * @return void
+     * @return string
      */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         return base_path()."/Modules/{$this->argument('module')}"."/Services".'/'. $this->getServiceName() . '.php';
     }
-    
-    
+
+
     /**
-     * Return only service class name 
+     * Return only service class name
      * getServiceNameWithoutNamespace
      *
-     * @return void
+     * @return string
      */
-    private function getServiceNameWithoutNamespace()
+    private function getServiceNameWithoutNamespace(): string
     {
         return class_basename($this->getServiceName());
     }
-    
+
     /**
      * Set Default Namespace
      * Override CommandGenerator class method
@@ -111,28 +111,26 @@ class CreateModuleServiceCommand extends CommandGenerator
         return "Modules\\{$this->argument('module')}\\Services";
     }
 
-    
+
     /**
      * Return stub file path
      * getStubFilePath
      *
-     * @return void
+     * @return string
      */
-    protected function getStubFilePath()
+    protected function getStubFilePath(): string
     {
-        $stub = '/stubs/service.stub';
-
-        return $stub;
+        return '/stubs/service.stub';
     }
 
-    
+
     /**
      * Generate file content
      * getTemplateContents
      *
-     * @return void
+     * @return string
      */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         return (new GenerateFile(__DIR__.$this->getStubFilePath(), [
             'CLASS_NAMESPACE'   => $this->getClassNamespace(),
@@ -149,26 +147,23 @@ class CreateModuleServiceCommand extends CommandGenerator
     {
         // Check this module exists or not.
         if ($this->checkModuleExists($this->argument('module')) === false) {
-            $this->error(" Module [{$this->argument('module')}] does not exist!");  
+            $this->error(" Module [{$this->argument('module')}] does not exist!");
             return E_ERROR;
             exit;
          }
-         
+
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
-        
+
         if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {
             $this->laravel['files']->makeDirectory($dir, 0777, true);
         }
-        
+
         $contents = $this->getTemplateContents();
 
         try {
-            
             (new FileGenerator($path, $contents))->generate();
-            
+
             $this->info("Created : {$path}");
-
-
         } catch (\Exception $e) {
 
             $this->error("File : {$e->getMessage()}");

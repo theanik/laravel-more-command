@@ -38,12 +38,10 @@ class ClearLogCommand extends Command
      */
     public function handle()
     {
-        
         exec('rm -f ' . storage_path('logs/*.log'));
-        
+
         $this->info("Logs have been cleared!");
 
         Log::info("Log Cleared at ".date('l jS \of F Y h:i:s A'));
-
     }
 }

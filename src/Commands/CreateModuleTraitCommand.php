@@ -7,8 +7,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Support\Str;
 class CreateModuleTraitCommand extends CommandGenerator
 {
-
-    
     /**
      * argumentName
      *
@@ -17,7 +15,7 @@ class CreateModuleTraitCommand extends CommandGenerator
     public $argumentName = 'trait';
 
     /**
-     * Name and signiture of Command.
+     * Name and signature of Command.
      * name
      * @var string
      */
@@ -31,12 +29,12 @@ class CreateModuleTraitCommand extends CommandGenerator
     protected $description = 'Command description';
 
     /**
-     * Get command agrumants - EX : HasAuth
+     * Get command arguments - EX : HasAuth
      * getArguments
      *
-     * @return void
+     * @return array
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['trait', InputArgument::REQUIRED, 'The name of the trait'],
@@ -44,7 +42,7 @@ class CreateModuleTraitCommand extends CommandGenerator
         ];
     }
 
-        
+
     /**
      * __construct
      *
@@ -55,39 +53,38 @@ class CreateModuleTraitCommand extends CommandGenerator
        parent::__construct();
     }
 
-        
+
     /**
      * getTraitName
      *
-     * @return void
+     * @return string
      */
-    private function getTraitName()
+    private function getTraitName(): string
     {
-        $trait = Str::studly($this->argument('trait'));
-        return $trait;
+        return Str::studly($this->argument('trait'));
     }
-    
+
     /**
      * getDestinationFilePath
      *
-     * @return void
+     * @return string
      */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         return base_path()."/Modules/{$this->argument('module')}"."/Traits".'/'. $this->getTraitName() . '.php';
     }
-    
+
 
     /**
      * getTraitNameWithoutNamespace
      *
-     * @return void
+     * @return string
      */
-    private function getTraitNameWithoutNamespace()
+    private function getTraitNameWithoutNamespace(): string
     {
         return class_basename($this->getTraitName());
     }
-    
+
     /**
      * getDefaultNamespace
      *
@@ -98,31 +95,30 @@ class CreateModuleTraitCommand extends CommandGenerator
         return "Modules\\{$this->argument('module')}\\Traits";
     }
 
-    
+
     /**
      * getStubFilePath
      *
-     * @return void
+     * @return string
      */
-    protected function getStubFilePath()
+    protected function getStubFilePath(): string
     {
-        $stub = '/stubs/traits.stub';
-        return $stub;
+        return '/stubs/traits.stub';
     }
-    
+
     /**
      * getTemplateContents
      *
-     * @return void
+     * @return string
      */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         return (new GenerateFile(__DIR__.$this->getStubFilePath(), [
             'CLASS_NAMESPACE'   => $this->getClassNamespace(),
             'CLASS'             => $this->getTraitNameWithoutNamespace()
         ]))->render();
     }
-  
+
     /**
      * Execute the console command.
      *
@@ -132,11 +128,11 @@ class CreateModuleTraitCommand extends CommandGenerator
     {
         // Check this module exists or not.
         if ($this->checkModuleExists($this->argument('module')) === false) {
-            $this->error(" Module [{$this->argument('module')}] does not exist!");  
+            $this->error(" Module [{$this->argument('module')}] does not exist!");
             return E_ERROR;
             exit;
          }
-         
+
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
 
 
@@ -147,7 +143,6 @@ class CreateModuleTraitCommand extends CommandGenerator
         $contents = $this->getTemplateContents();
 
         try {
-            
             (new FileGenerator($path, $contents))->generate();
 
             $this->info("Created : {$path}");
