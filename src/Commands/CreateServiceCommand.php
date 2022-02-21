@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Support\Str;
 
 class CreateServiceCommand extends CommandGenerator
-{    
+{
     /**
      * argumentName
      *
@@ -15,9 +15,9 @@ class CreateServiceCommand extends CommandGenerator
      */
     public $argumentName = 'service';
 
-        
+
     /**
-     * Name and signiture of Command.
+     * Name and signature of Command.
      * name
      * @var string
      */
@@ -29,24 +29,24 @@ class CreateServiceCommand extends CommandGenerator
      * description
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'New service create command';
 
 
-    
+
     /**
-     * Get command agrumants - EX : UserService
+     * Get command arguments - EX : UserService
      * getArguments
      *
-     * @return void
+     * @return array
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['service', InputArgument::REQUIRED, 'The name of the service class.'],
         ];
     }
-    
-        
+
+
     /**
      * __construct
      *
@@ -56,15 +56,15 @@ class CreateServiceCommand extends CommandGenerator
     {
        parent::__construct();
     }
-    
-    
+
+
     /**
      * Return Service name as convention
      * getServiceName
      *
-     * @return void
+     * @return string
      */
-    private function getServiceName()
+    private function getServiceName(): string
     {
         $service = Str::studly($this->argument('service'));
 
@@ -74,30 +74,43 @@ class CreateServiceCommand extends CommandGenerator
 
         return $service;
     }
-    
+
+    /**
+     * Replace App with empty string for resolve namespace
+     *
+     * @return string
+     */
+    private function resolveNamespace(): string
+    {
+        if (strpos($this->getServiceNamespaceFromConfig(), self::APP_PATH) === 0) {
+            return str_replace(self::APP_PATH, '', $this->getServiceNamespaceFromConfig());
+        }
+        return '/' . $this->getServiceNamespaceFromConfig();
+    }
+
     /**
      * Return destination path for class file publish
      * getDestinationFilePath
      *
-     * @return void
+     * @return string
      */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
-        return app_path()."/Services".'/'. $this->getServiceName() . '.php';
+        return app_path() . $this->resolveNamespace() .'/Services'.'/'. $this->getServiceName() . '.php';
     }
-    
-    
+
+
     /**
-     * Return only service class name 
+     * Return only service class name
      * getServiceNameWithoutNamespace
      *
-     * @return void
+     * @return string
      */
-    private function getServiceNameWithoutNamespace()
+    private function getServiceNameWithoutNamespace(): string
     {
         return class_basename($this->getServiceName());
     }
-    
+
     /**
      * Set Default Namespace
      * Override CommandGenerator class method
@@ -107,32 +120,30 @@ class CreateServiceCommand extends CommandGenerator
      */
     public function getDefaultNamespace() : string
     {
-        $configNamespace = $this->getNamespaceFromConfig();
+        $configNamespace = $this->getServiceNamespaceFromConfig();
         return "$configNamespace\\Services";
     }
 
-    
+
     /**
      * Return stub file path
      * getStubFilePath
      *
-     * @return void
+     * @return string
      */
-    protected function getStubFilePath()
+    protected function getStubFilePath(): string
     {
-        $stub = '/stubs/service.stub';
-
-        return $stub;
+        return '/stubs/service.stub';
     }
 
-    
+
     /**
      * Generate file content
      * getTemplateContents
      *
-     * @return void
+     * @return string
      */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         return (new GenerateFile(__DIR__.$this->getStubFilePath(), [
             'CLASS_NAMESPACE'   => $this->getClassNamespace(),
@@ -148,20 +159,17 @@ class CreateServiceCommand extends CommandGenerator
     public function handle()
     {
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
-        
+
         if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {
             $this->laravel['files']->makeDirectory($dir, 0777, true);
         }
-        
+
         $contents = $this->getTemplateContents();
 
         try {
-            
             (new FileGenerator($path, $contents))->generate();
-            
+
             $this->info("Created : {$path}");
-
-
         } catch (\Exception $e) {
 
             $this->error("File : {$e->getMessage()}");
@@ -170,7 +178,6 @@ class CreateServiceCommand extends CommandGenerator
         }
 
         return 0;
-
     }
 
 }

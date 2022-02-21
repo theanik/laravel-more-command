@@ -17,7 +17,7 @@ class CreateModuleRepositoryCommand extends CommandGenerator
     public $argumentName = 'repository';
 
     /**
-     * Name and signiture of Command.
+     * Name and signature of Command.
      * name
      * @var string
      */
@@ -32,12 +32,12 @@ class CreateModuleRepositoryCommand extends CommandGenerator
 
 
     /**
-     * Get command agrumants - EX : UserRepository
+     * Get command ruminants - EX : UserRepository
      * getArguments
      *
-     * @return void
+     * @return array
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['repository', InputArgument::REQUIRED, 'The name of the repository class.'],
@@ -50,14 +50,14 @@ class CreateModuleRepositoryCommand extends CommandGenerator
      * Ex -i : for creating interface
      * @return array
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
             ['interface', 'i', InputOption::VALUE_NONE, 'Flag to create associated Interface', null],
         ];
     }
-    
-    
+
+
     /**
      * __construct
      *
@@ -72,9 +72,9 @@ class CreateModuleRepositoryCommand extends CommandGenerator
      * Return Repository name as convention
      * getRepositoryName
      *
-     * @return void
+     * @return string
      */
-    private function getRepositoryName()
+    private function getRepositoryName(): string
     {
         $repository = Str::studly($this->argument('repository'));
 
@@ -89,20 +89,20 @@ class CreateModuleRepositoryCommand extends CommandGenerator
      * Return destination path for class file publish
      * getDestinationFilePath
      *
-     * @return void
+     * @return string
      */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         return base_path()."/Modules/{$this->argument('module')}"."/Repositories".'/'. $this->getRepositoryName() . '.php';
     }
 
     /**
-     * Return Inferace name for this repository class
+     * Return Inference name for this repository class
      * getInterfaceName
      *
-     * @return void
+     * @return string
      */
-    protected function getInterfaceName()
+    protected function getInterfaceName(): string
     {
         return $this->getRepositoryName()."Interface";
     }
@@ -111,20 +111,20 @@ class CreateModuleRepositoryCommand extends CommandGenerator
      * Return destination path for interface file publish
      * interfaceDestinationPath
      *
-     * @return void
+     * @return string
      */
-    protected function interfaceDestinationPath()
+    protected function interfaceDestinationPath(): string
     {
         return base_path()."/Modules/{$this->argument('module')}"."/Repositories/Interfaces".'/'. $this->getInterfaceName() . '.php';
     }
 
     /**
-     * Return only repository class name 
+     * Return only repository class name
      * getRepositoryNameWithoutNamespace
      *
-     * @return void
+     * @return string
      */
-    private function getRepositoryNameWithoutNamespace()
+    private function getRepositoryNameWithoutNamespace(): string
     {
         return class_basename($this->getRepositoryName());
     }
@@ -142,18 +142,18 @@ class CreateModuleRepositoryCommand extends CommandGenerator
     }
 
     /**
-     * Return only repository interface name 
+     * Return only repository interface name
      * getInterfaceNameWithoutNamespace
      *
-     * @return void
+     * @return string
      */
-    private function getInterfaceNameWithoutNamespace()
+    private function getInterfaceNameWithoutNamespace(): string
     {
         return class_basename($this->getInterfaceName());
     }
 
     /**
-     * Set Default interface Namepsace
+     * Set Default interface Namespace
      * Override CommandGenerator class method
      * getDefaultInterfaceNamespace
      *
@@ -169,16 +169,15 @@ class CreateModuleRepositoryCommand extends CommandGenerator
      * Return stub file path
      * getStubFilePath
      *
-     * @return void
+     * @return string
      */
-    protected function getStubName()
+    protected function getStubName(): string
     {
         if ($this->option('interface') === true) {
             $stub = '/stubs/repository-interface.stub';
         } else {
             $stub = '/stubs/repository.stub';
         }
-
         return $stub;
     }
 
@@ -187,9 +186,9 @@ class CreateModuleRepositoryCommand extends CommandGenerator
      * Generate file content
      * getTemplateContents
      *
-     * @return void
+     * @return string
      */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         return (new GenerateFile(__DIR__.$this->getStubName(), [
             'CLASS_NAMESPACE'   => $this->getClassNamespace(),
@@ -201,12 +200,12 @@ class CreateModuleRepositoryCommand extends CommandGenerator
 
 
     /**
-     * Generate inteface file content
+     * Generate interface file content
      * getInterfaceTemplateContents
      *
-     * @return void
+     * @return string
      */
-    protected function getInterfaceTemplateContents()
+    protected function getInterfaceTemplateContents(): string
     {
         return (new GenerateFile(__DIR__."/stubs/interface.stub", [
             'CLASS_NAMESPACE'   => $this->getInterfaceNamespace(),
@@ -222,15 +221,13 @@ class CreateModuleRepositoryCommand extends CommandGenerator
      */
     public function handle()
     {
-
         // Check this module exists or not.
         if ($this->checkModuleExists($this->argument('module')) === false) {
-            $this->error(" Module [{$this->argument('module')}] does not exist!");  
+            $this->error(" Module [{$this->argument('module')}] does not exist!");
             return E_ERROR;
             exit;
          }
 
-         
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
 
         if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {
@@ -251,7 +248,6 @@ class CreateModuleRepositoryCommand extends CommandGenerator
         }
 
         try {
-            
             (new FileGenerator($path, $contents))->generate();
 
             $this->info("Created : {$path}");

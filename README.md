@@ -19,8 +19,8 @@ Or add the following to your composer.json's require-dev section and `composer u
 
 ```json
 "require-dev": {
-        "theanik/laravel-more-command": "^1.2.0"
-    }
+    "theanik/laravel-more-command": "^1.3.0"
+}
 ```
 
 ## Publish Package Configuration
@@ -31,7 +31,8 @@ Or add the following to your composer.json's require-dev section and `composer u
 ```php
 <?php
 return [
-    'namespace' => 'App', // Your Desire Namespace
+    'repository-namespace' => 'App', // Your Desire Namespace for Repository Classes
+    'service-namespace' => 'App', // Your Desire Namespace for Service Classes
 ];
 ```
 
@@ -62,7 +63,7 @@ php artisan make:repository UserRepository
 ```
 or
 ```
-php artisan make:repository Backend\UserRepository
+php artisan make:repository Backend/UserRepository
 ```
 
 The above will create a **Repositories** directory inside the **App** directory.\
@@ -76,7 +77,7 @@ php artisan make:repository UserRepository -i
 ```
 or
 ```
-php artisan make:repository Backend\UserRepository -i
+php artisan make:repository Backend/UserRepository -i
 ```
 Here you need to put extra `-i` flag.
 The above will create a **Repositories** directory inside the **App** directory.
@@ -93,7 +94,7 @@ php artisan module:make-repository UserRepository Blog
 ```
 or
 ```
-php artisan module:make-repository Backend\UserRepository Blog
+php artisan module:make-repository Backend/UserRepository Blog
 ```
 
 The above will create a **Repositories** directory inside the **{Module}** directory.
@@ -107,7 +108,7 @@ php artisan module:make-repository UserRepository -i Blog
 ```
 or
 ```
-php artisan module:make-repository Backend\UserRepository -i Blog
+php artisan module:make-repository Backend/UserRepository -i Blog
 ```
 Here you need to put extra `-i` flag.
 The above will create a **Repositories** directory inside the **{Module}** directory.
@@ -145,7 +146,7 @@ php artisan make:service UserService
 ```
 or
 ```
-php artisan make:service Backend\UserService
+php artisan make:service Backend/UserService
 ```
 The above will create a **Services** directory inside the **App** directory.
 
@@ -160,7 +161,7 @@ php artisan module:make-service UserService
 ```
 or
 ```
-php artisan module:make-service Backend\UserService
+php artisan module:make-service Backend/UserService
 ```
 The above will create a **Services** directory inside the **{Module}** directory.
 
@@ -178,7 +179,7 @@ php artisan make:trait HasAuth
 ```
 or
 ```
-php artisan make:trait Backend\HasAuth
+php artisan make:trait Backend/HasAuth
 ```
 The above will create a **Traits** directory inside the **App** directory.
 
@@ -192,7 +193,7 @@ php artisan module:make-trait HasAuth
 ```
 or
 ```
-php artisan module:make-trait Backend\HasAuth
+php artisan module:make-trait Backend/HasAuth
 ```
 The above will create a **Traits** directory inside the **{Module}** directory.
 
@@ -211,7 +212,7 @@ php artisan make:view index
 ```
 or
 ```
-php artisan make:view user\index
+php artisan make:view user/index
 ```
 The above will create a **blade** file inside the **/resource/views/** directory.
 
@@ -225,7 +226,7 @@ php artisan module:make-view index
 ```
 or
 ```
-php artisan module:make-view user\index
+php artisan module:make-view user/index
 ```
 The above will create a **blade** file inside the **{Module}/Resources/views/** directory.
 

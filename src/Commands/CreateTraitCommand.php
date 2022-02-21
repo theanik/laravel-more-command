@@ -16,7 +16,7 @@ class CreateTraitCommand extends CommandGenerator
     public $argumentName = 'trait';
 
     /**
-     * Name and signiture of Command.
+     * Name and signature of Command.
      * name
      * @var string
      */
@@ -28,21 +28,20 @@ class CreateTraitCommand extends CommandGenerator
      * @var string
      */
     protected $description = 'Command description';
-    
+
     /**
-     * Get Command argumant EX : HasAuth
+     * Get Command argument EX : HasAuth
      * getArguments
      *
-     * @return void
+     * @return array
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['trait', InputArgument::REQUIRED, 'The name of the trait'],
         ];
     }
 
-        
     /**
      * __construct
      *
@@ -52,38 +51,37 @@ class CreateTraitCommand extends CommandGenerator
     {
        parent::__construct();
     }
-    
+
     /**
      * getTraitName
      *
-     * @return void
+     * @return string
      */
-    private function getTraitName()
+    private function getTraitName(): string
     {
-        $trait = Str::studly($this->argument('trait'));
-        return $trait;
+        return Str::studly($this->argument('trait'));
     }
-    
+
     /**
      * getDestinationFilePath
      *
-     * @return void
+     * @return string
      */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         return app_path()."/Traits".'/'. $this->getTraitName() . '.php';
     }
-    
+
     /**
      * getTraitNameWithoutNamespace
      *
-     * @return void
+     * @return string
      */
-    private function getTraitNameWithoutNamespace()
+    private function getTraitNameWithoutNamespace(): string
     {
         return class_basename($this->getTraitName());
     }
-    
+
     /**
      * getDefaultNamespace
      *
@@ -91,27 +89,25 @@ class CreateTraitCommand extends CommandGenerator
      */
     public function getDefaultNamespace() : string
     {
-        $configNamespace = $this->getNamespaceFromConfig();
-        return "$configNamespace\\Traits";
+        return "App\\Traits";
     }
 
     /**
      * getStubFilePath
      *
-     * @return void
+     * @return string
      */
-    protected function getStubFilePath()
+    protected function getStubFilePath(): string
     {
-        $stub = '/stubs/traits.stub';
-        return $stub;
+        return '/stubs/traits.stub';
     }
-    
+
     /**
      * getTemplateContents
      *
-     * @return void
+     * @return string
      */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         return (new GenerateFile(__DIR__.$this->getStubFilePath(), [
             'CLASS_NAMESPACE'   => $this->getClassNamespace(),
@@ -136,12 +132,12 @@ class CreateTraitCommand extends CommandGenerator
         $contents = $this->getTemplateContents();
 
         try {
-            
+
             (new FileGenerator($path, $contents))->generate();
 
             $this->info("Created : {$path}");
         } catch (\Exception $e) {
-            
+
             $this->error("File : {$e->getMessage()}");
 
             return E_ERROR;

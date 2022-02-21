@@ -16,7 +16,7 @@ class CreateModuleBladeCommand extends CommandGenerator
     public $argumentName = 'view';
 
     /**
-     * Name and signiture of Command.
+     * Name and signature of Command.
      * name
      * @var string
      */
@@ -28,14 +28,14 @@ class CreateModuleBladeCommand extends CommandGenerator
      * @var string
      */
     protected $description = 'Command description';
-    
+
     /**
-     * Get Command argumant EX : HasAuth
+     * Get Command argument EX : HasAuth
      * getArguments
      *
-     * @return void
+     * @return array
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['view', InputArgument::REQUIRED, 'The name of the view'],
@@ -43,7 +43,6 @@ class CreateModuleBladeCommand extends CommandGenerator
         ];
     }
 
-        
     /**
      * __construct
      *
@@ -52,19 +51,15 @@ class CreateModuleBladeCommand extends CommandGenerator
     public function __construct()
     {
        parent::__construct();
-       
+
     }
 
-
-    
-
-    
     /**
      * getViewName
      *
-     * @return void
+     * @return string
      */
-    private function getViewName()
+    private function getViewName(): string
     {
         $view = Str::camel($this->argument('view'));
         if (Str::contains(strtolower($view), '.blade.php') === false) {
@@ -72,35 +67,34 @@ class CreateModuleBladeCommand extends CommandGenerator
         }
         return $view;
     }
-    
+
     /**
      * getDestinationFilePath
      *
-     * @return void
+     * @return string
      */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath(): string
     {
         return base_path()."/Modules/{$this->argument('module')}"."/Resources/views".'/'. $this->getViewName();
     }
-    
+
 
     /**
      * getStubFilePath
      *
-     * @return void
+     * @return string
      */
-    protected function getStubFilePath()
+    protected function getStubFilePath(): string
     {
-        $stub = '/stubs/blade.stub';
-        return $stub;
+        return '/stubs/blade.stub';
     }
-    
+
     /**
      * getTemplateContents
      *
-     * @return void
+     * @return string
      */
-    protected function getTemplateContents()
+    protected function getTemplateContents(): string
     {
         return (new GenerateFile(__DIR__.$this->getStubFilePath()))->render();
     }
@@ -114,13 +108,12 @@ class CreateModuleBladeCommand extends CommandGenerator
     {
         // Check this module exists or not.
         if ($this->checkModuleExists($this->argument('module')) === false) {
-            $this->error(" Module [{$this->argument('module')}] does not exist!");  
+            $this->error(" Module [{$this->argument('module')}] does not exist!");
             return E_ERROR;
             exit;
          }
 
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
-
 
         if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {
             $this->laravel['files']->makeDirectory($dir, 0777, true);
@@ -129,19 +122,17 @@ class CreateModuleBladeCommand extends CommandGenerator
         $contents = $this->getTemplateContents();
 
         try {
-            
             (new FileGenerator($path, $contents))->generate();
 
             $this->info("Created : {$path}");
         } catch (\Exception $e) {
-            
+
             $this->error("File : {$e->getMessage()}");
 
             return E_ERROR;
         }
 
         return 0;
-
     }
 
 }

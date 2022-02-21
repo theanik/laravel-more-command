@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 abstract class CommandGenerator extends Command
 {
+    public const APP_PATH = 'App';
 
     /**
      * argumentName
@@ -20,29 +21,39 @@ abstract class CommandGenerator extends Command
      *
      * @return string
      */
-    abstract protected function getTemplateContents();
+    abstract protected function getTemplateContents(): string;
 
 
     /**
-     * Return the destination path for publishe created class file.
+     * Return the destination path for publish created class file.
      * getDestinationFilePath
      *
      * @return string
      */
-    abstract protected function getDestinationFilePath();
+    abstract protected function getDestinationFilePath(): string;
 
 
     /**
-     * Get Namespace From Config
+     * Get Repository Namespace From Config
      * @return string
      */
-    public function getNamespaceFromConfig(): string
+    public function getRepositoryNamespaceFromConfig(): string
     {
-        return config('laravel-more-command.namespace') ?? 'App';
+        return config('laravel-more-command.repository-namespace') ?? 'App';
+    }
+
+
+    /**
+     * Get Service Namespace From Config
+     * @return string
+     */
+    public function getServiceNamespaceFromConfig(): string
+    {
+        return config('laravel-more-command.service-namespace') ?? 'App';
     }
 
     /**
-     * Return the default namesapce for class
+     * Return the default namespace for class
      * getDefaultNamespace
      *
      * @return string
@@ -54,7 +65,7 @@ abstract class CommandGenerator extends Command
 
 
     /**
-     * Return the default namesapce type for interface
+     * Return the default namespace type for interface
      * getDefaultInterfaceNamespace
      *
      * @return string
@@ -66,28 +77,26 @@ abstract class CommandGenerator extends Command
 
 
     /**
-     * Return a vaid class name
+     * Return a class name
      * getClass
      *
-     * @return void
+     * @return string
      */
-    public function getClass()
+    public function getClass(): string
     {
         return class_basename($this->argument($this->argumentName));
     }
 
 
     /**
-     * Generate class namespace dinamacally
+     * Generate class namespace dynamically
      * getClassNamespace
      *
-     * @return void
+     * @return string
      */
-    public function getClassNamespace()
+    public function getClassNamespace(): string
     {
-        $extra = str_replace($this->getClass(), '', $this->argument($this->argumentName));
-
-        $extra = str_replace('/', '\\', $extra);
+        $extra = str_replace(array($this->getClass(), '/'), array('', '\\'), $this->argument($this->argumentName));
 
         $namespace = $this->getDefaultNamespace();
 
@@ -100,16 +109,14 @@ abstract class CommandGenerator extends Command
 
 
     /**
-     * Generate interface namespace dinamacally
+     * Generate interface namespace dynamically
      * getInterfaceNamespace
      *
-     * @return void
+     * @return string
      */
-    public function getInterfaceNamespace()
+    public function getInterfaceNamespace(): string
     {
-        $extra = str_replace($this->getClass() . 'Interface', '', $this->argument($this->argumentName) . 'Interface');
-
-        $extra = str_replace('/', '\\', $extra);
+        $extra = str_replace(array($this->getClass() . 'Interface', '/'), array('', '\\'), $this->argument($this->argumentName) . 'Interface');
 
         $namespace = $this->getDefaultInterfaceNamespace();
 
@@ -134,6 +141,5 @@ abstract class CommandGenerator extends Command
         }
         return true;
     }
-
 
 }
